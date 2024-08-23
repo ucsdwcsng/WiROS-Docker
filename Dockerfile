@@ -1,5 +1,5 @@
 # Use Ubuntu 20.04 as the base image
-FROM ubuntu:20.04
+FROM zhh013/wiros-amd64:latest
 # FROM zhh013/wiros:basic-env
 # FROM wiros_from_20.04
 
@@ -77,6 +77,7 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     cd ~/wiros/src && \
     git clone https://github.com/ucsdwcsng/wiros_csi_node.git && \
     git clone https://github.com/ucsdwcsng/rf_msgs.git && \
+    git clone https://github.com/WS-UB/imu_publisher.git && \
     cd wiros_csi_node && \
     git checkout cleanup && \
     cd ../.. && \
