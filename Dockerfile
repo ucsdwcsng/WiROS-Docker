@@ -54,9 +54,9 @@ RUN bash -c "source ~/.bashrc" && \
     ros-noetic-catkin \
     python3-catkin-tools \
     emacs \
-    sshpass
+    sshpass \
+    inetutils-ping
     # network-manager \
-    # inetutils-ping
 
 
 # EXPOSE 5500/udp
@@ -83,6 +83,7 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     catkin init && \
     catkin build && \
     echo "source ~/wiros/devel/setup.bash" >> ~/.bashrc 
+
 
 # Set the default command to run a bash shell
 CMD ["bash"]
