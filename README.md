@@ -1,6 +1,6 @@
 # WiROS-Docker
 
-WiROS 
+This repo contains the instructions to use Docker images of WiROS and the relavant tools. The images contain pre-built environment and repository necessary for WiROS deployment, offering a more user-friendly usage of the setup. 
 
 ## Installation and Setup
 
