@@ -62,23 +62,34 @@ RUN bash -c "source ~/.bashrc" && \
 
 # EXPOSE 5500/udp
 
-# # Only initialize rosdep if the sources list file does not already exist
-# RUN [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ] && rosdep init || echo "rosdep already initialized" \
-#     && rosdep update 
+# Only initialize rosdep if the sources list file does not already exist
+RUN [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ] && rosdep init || echo "rosdep already initialized" \
+    && rosdep update 
     
 
 # Set up environment variables
 # Create a wiros workspace 
 SHELL ["/bin/bash", "-c"]
-RUN /bin/bash -c "source ~/.bashrc" && \
-    source /opt/ros/noetic/setup.bash && \
+RUN source /opt/ros/noetic/setup.bash && \
     export SSL_CERT_FILE=/usr/lib/ssl/certs/ca-certificates.crt && \
-    rosdep init && rosdep update && \
     mkdir -p ~/wiros/src && \
     cd ~/wiros/src && \
-    git clone https://github.com/ucsdwcsng/wiros_csi_node.git && \
-    git clone https://github.com/ucsdwcsng/rf_msgs.git && \
-    git clone https://github.com/WS-UB/imu_publisher.git && \
+    # Array of repositories
+    repos=( \
+        "https://github.com/ucsdwcsng/wiros_csi_node.git" \
+        "https://github.com/ucsdwcsng/rf_msgs.git" \
+        "https://github.com/WS-UB/imu_publisher.git" \
+    ) && \
+    # Check if a repo exists, if not, clone it
+    for repo in "${repos[@]}"; do \
+        repo_name=$(basename -s .git $repo); \
+        if [ -d "$repo_name" ]; then \
+            echo "$repo_name already exists, skipping clone."; \
+        else \
+            echo "$repo_name does not exist, cloning repository..."; \
+            git clone $repo; \
+        fi; \
+    done && \
     cd wiros_csi_node && \
     git checkout cleanup && \
     cd ../.. && \
@@ -86,8 +97,16 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     catkin build && \
     echo "source ~/wiros/devel/setup.bash" >> ~/.bashrc && \
     cd && \
-    git clone https://github.com/ucsdwcsng/wiros_data_collection.git
-
+    repo="https://github.com/ucsdwcsng/wiros_data_collection.git" && \
+    # Extract the repository name
+    repo_name=$(basename -s .git $repo) && \
+    # Check if the repo exists, if not, clone it
+    if [ -d "$repo_name" ]; then \
+        echo "$repo_name already exists, skipping clone."; \
+    else \
+        echo "$repo_name does not exist, cloning repository..."; \
+        git clone $repo; \
+    fi
 
 # Set the default command to run a bash shell
 CMD ["bash"]
