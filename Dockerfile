@@ -55,7 +55,8 @@ RUN bash -c "source ~/.bashrc" && \
     python3-catkin-tools \
     emacs \
     sshpass \
-    inetutils-ping
+    inetutils-ping \
+    jq
     # network-manager \
 
 
@@ -83,7 +84,9 @@ RUN /bin/bash -c "source ~/.bashrc" && \
     cd ../.. && \
     catkin init && \
     catkin build && \
-    echo "source ~/wiros/devel/setup.bash" >> ~/.bashrc 
+    echo "source ~/wiros/devel/setup.bash" >> ~/.bashrc && \
+    cd && \
+    git clone https://github.com/ucsdwcsng/wiros_data_collection.git
 
 
 # Set the default command to run a bash shell
