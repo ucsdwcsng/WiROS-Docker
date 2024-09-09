@@ -56,7 +56,16 @@ RUN bash -c "source ~/.bashrc" && \
     emacs \
     sshpass \
     inetutils-ping \
-    jq
+    jq \
+    unzip \
+    pip && \
+    # Change the version if necessary! 
+    # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    # unzip awscliv2.zip && \
+    # sudo ./aws/install 
+    curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
+    unzip awscli-bundle.zip && \
+    sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws 
     # network-manager \
 
 
@@ -106,7 +115,20 @@ RUN source /opt/ros/noetic/setup.bash && \
     else \
         echo "$repo_name does not exist, cloning repository..."; \
         git clone $repo; \
-    fi
+    fi && \
+    curl https://www.amazontrust.com/repository/AmazonRootCA1.pem > root-CA.crt && \
+    repo="https://github.com/aws/aws-iot-device-sdk-python-v2.git" && \
+    # Extract the repository name
+    repo_name=$(basename -s .git $repo) && \
+    # Check if the repo exists, if not, clone it
+    if [ -d "$repo_name" ]; then \
+        echo "$repo_name already exists, skipping clone."; \
+    else \
+        echo "$repo_name does not exist, cloning repository..."; \
+        git clone $repo; \
+    fi && \
+    python3 -m pip install ./aws-iot-device-sdk-python-v2
+
 
 # Set the default command to run a bash shell
 CMD ["bash"]
