@@ -58,12 +58,12 @@ RUN bash -c "source ~/.bashrc" && \
     inetutils-ping \
     jq \
     unzip \
+    python-is-python3 \
     pip && \
     # Change the version if necessary! 
     # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     # unzip awscliv2.zip && \
     # sudo ./aws/install 
-    alias python=python3 && \
     curl "https://s3.amazonaws.com/aws-cli/awscli-bundle.zip" -o "awscli-bundle.zip" && \
     unzip awscli-bundle.zip && \
     sudo ./awscli-bundle/install -i /usr/local/aws -b /usr/local/bin/aws 
