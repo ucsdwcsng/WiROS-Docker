@@ -59,6 +59,7 @@ RUN bash -c "source ~/.bashrc" && \
     jq \
     unzip \
     python-is-python3 \
+    python3.8-venv \
     pip && \
     # Change the version if necessary! 
     # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
@@ -70,7 +71,6 @@ RUN bash -c "source ~/.bashrc" && \
     # network-manager \
 
 
-# EXPOSE 5500/udp
 
 # Only initialize rosdep if the sources list file does not already exist
 RUN [ ! -f /etc/ros/rosdep/sources.list.d/20-default.list ] && rosdep init || echo "rosdep already initialized" \
