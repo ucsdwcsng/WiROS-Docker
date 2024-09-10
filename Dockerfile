@@ -1,5 +1,5 @@
 # Use Ubuntu 20.04 as the base image
-FROM zhh013/wiros-amd64:latest
+FROM zhh013/wiros-arm-v7:latest
 # FROM zhh013/wiros:basic-env
 # FROM wiros_from_20.04
 
