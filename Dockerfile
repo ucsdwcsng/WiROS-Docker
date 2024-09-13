@@ -60,6 +60,7 @@ RUN bash -c "source ~/.bashrc" && \
     unzip \
     python-is-python3 \
     python3.8-venv \
+    screen \
     pip && \
     # Change the version if necessary! 
     # curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
